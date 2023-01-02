@@ -1,5 +1,5 @@
-import { describe , it } from '@jest/globals';
 import jwt from 'jsonwebtoken';
+import { describe , it } from '@jest/globals';
 
 import { InMemoryUsersRepository } from '../../repositories/in-memory/InMemoryUsersRepository';
 import { CreateUserUseCase } from '../createUser/CreateUserUseCase';
@@ -10,7 +10,6 @@ describe('User Session', () => {
     const usersRepository = new InMemoryUsersRepository
     const createUserUseCase = new CreateUserUseCase(usersRepository);
     const authenticateUserUseCase = new AuthenticateUserUseCase(usersRepository);
-    process.env.JWT_SECRET = 'test';
 
     const user = await createUserUseCase.execute({
       name: 'John Doe',

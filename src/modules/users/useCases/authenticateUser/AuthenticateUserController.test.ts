@@ -1,7 +1,7 @@
 import request from 'supertest';
-import { Connection, createConnection, getRepository } from 'typeorm';
 import jwt from 'jsonwebtoken';
 import { hash } from 'bcryptjs';
+import { Connection, createConnection, getRepository } from 'typeorm';
 
 import { app } from '../../../../app';
 import { User } from '../../entities/User';
