@@ -5,6 +5,7 @@ import { Connection, createConnection, getRepository } from 'typeorm';
 
 import { app } from '../../../../app';
 import { User } from '../../entities/User';
+import { IncorrectEmailOrPasswordError } from './IncorrectEmailOrPasswordError';
 
 let connection: Connection
 beforeAll(async () => {

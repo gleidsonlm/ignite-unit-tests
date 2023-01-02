@@ -39,4 +39,42 @@ describe('User Session', () => {
       )
     })
   })
+
+  it('should not be able to create a token with incorrect password', async () => {
+    const usersRepository = new InMemoryUsersRepository
+    const createUserUseCase = new CreateUserUseCase(usersRepository);
+    const authenticateUserUseCase = new AuthenticateUserUseCase(usersRepository);
+
+    const user = await createUserUseCase.execute({
+      name: 'John Doe',
+      email: 'john@doe.com',
+      password: 'Password.42'
+    });
+
+    expect(async () => {
+      await authenticateUserUseCase.execute({
+        email: 'john@doe.com',
+        password: 'Incorrect'
+      })
+    }).rejects
+  })
+
+  it('should not be able to create a token without valid email user', async () => {
+    const usersRepository = new InMemoryUsersRepository
+    const createUserUseCase = new CreateUserUseCase(usersRepository);
+    const authenticateUserUseCase = new AuthenticateUserUseCase(usersRepository);
+
+    const user = await createUserUseCase.execute({
+      name: 'John Doe',
+      email: 'john@doe.com',
+      password: 'Password.42'
+    });
+
+    expect(async () => {
+      await authenticateUserUseCase.execute({
+        email: 'incorrect@mail.com',
+        password: 'Password.42'
+      })
+    }).rejects
+  })
 })
