@@ -5,29 +5,33 @@ import { Connection, createConnection, getRepository } from 'typeorm';
 
 import { app } from '../../../../app';
 import { User } from '../../entities/User';
-import { IncorrectEmailOrPasswordError } from './IncorrectEmailOrPasswordError';
+import { clearDatabaseTable } from '../../../../shared/helpers/cleardatabasetable';
 
 let connection: Connection
 beforeAll(async () => {
   connection = await createConnection();
   await connection.runMigrations();
-
-  const usersRepository = getRepository(User)
-  const user = usersRepository.create({
-    name: 'John Doe',
-    email: 'john@doe.com',
-    password: await hash('Password.42', 8)      
-  })
-  await usersRepository.save(user)
 });
 
+afterEach(async () => {
+  await clearDatabaseTable();
+})
+
+
 afterAll(async () => {
-  await connection.dropDatabase()
   await connection.close();
 });
 
 describe('User Session', () => {
   it('should be able to authenticate an user', async () => {
+    const usersRepository = getRepository(User)
+    const user = usersRepository.create({
+      name: 'John Doe',
+      email: 'john@doe.com',
+      password: await hash('Password.42', 8)      
+    })
+    await usersRepository.save(user)
+
     const tokenResponse = await request(app)
     .post("/api/v1/sessions")
     .send({
@@ -56,10 +60,18 @@ describe('User Session', () => {
 
   it('should not be able to authenticate with wrong password',
     async () => {
+      const usersRepository = getRepository(User)
+      const user = usersRepository.create({
+        name: 'John Doe',
+        email: 'john1@doe.com',
+        password: await hash('Password.42', 8)      
+      })
+      await usersRepository.save(user)
+      
       const tokenResponse = await request(app)
       .post("/api/v1/sessions")
       .send({
-        email: 'john@doe.com',
+        email: 'john1@doe.com',
         password: 'Password42'
       })
 
@@ -74,7 +86,7 @@ describe('User Session', () => {
       const tokenResponse = await request(app)
       .post("/api/v1/sessions")
       .send({
-        email: 'john@doe.com',
+        email: 'john2@doe.com',
         password: 'Password42'
       })
 

@@ -1,6 +1,7 @@
 import request from 'supertest';
 import { Connection, createConnection, createQueryBuilder, getRepository } from 'typeorm';
 import { app } from '../../../../app';
+import { clearDatabaseTable } from '../../../../shared/helpers/cleardatabasetable';
 import { User } from '../../entities/User';
 import { ICreateUserDTO } from './ICreateUserDTO';
 
@@ -10,8 +11,11 @@ beforeAll(async () => {
   await connection.runMigrations();
 });
 
+afterEach(async () => {
+  await clearDatabaseTable();
+})
+
 afterAll(async () => {
-  await connection.dropDatabase()
   await connection.close();
 });
 
@@ -20,7 +24,7 @@ describe('User Create', () => {
   it('should be able to create a user', async () => {
     const createUserDTO:ICreateUserDTO = {
       name: 'John Doe',
-      email: 'john@doe.com',
+      email: 'john7@doe.com',
       password: 'Password.42'
     }
     const response = await request(app)
@@ -38,10 +42,14 @@ describe('User Create', () => {
   it('should not be able to create a user with the same email', async () => {
     const createUserDTO:ICreateUserDTO = {
       name: 'John Doe',
-      email: 'john@doe.com',
+      email: 'john8@doe.com',
       password: 'Password.42'
     }
 
+    const firstResponse = await request(app)
+    .post("/api/v1/users")
+    .send(createUserDTO)
+    
     const secondResponse = await request(app)
     .post("/api/v1/users")
     .send(createUserDTO)

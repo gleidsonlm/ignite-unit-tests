@@ -13,12 +13,12 @@ describe('User Session', () => {
 
     const user = await createUserUseCase.execute({
       name: 'John Doe',
-      email: 'john@doe.com',
+      email: 'john4@doe.com',
       password: 'Password.42'
     });
 
     const userAuth = await authenticateUserUseCase.execute({
-      email: 'john@doe.com',
+      email: 'john4@doe.com',
       password: 'Password.42'
     })
     
@@ -27,7 +27,7 @@ describe('User Session', () => {
           user: {
             id: expect.any(String),
             name: 'John Doe',
-            email: 'john@doe.com'
+            email: 'john4@doe.com'
           },
           token: expect.any(String),
         }
@@ -47,13 +47,13 @@ describe('User Session', () => {
 
     const user = await createUserUseCase.execute({
       name: 'John Doe',
-      email: 'john@doe.com',
+      email: 'john5@doe.com',
       password: 'Password.42'
     });
 
     expect(async () => {
       await authenticateUserUseCase.execute({
-        email: 'john@doe.com',
+        email: 'john5@doe.com',
         password: 'Incorrect'
       })
     }).rejects
@@ -66,13 +66,13 @@ describe('User Session', () => {
 
     const user = await createUserUseCase.execute({
       name: 'John Doe',
-      email: 'john@doe.com',
+      email: 'john6@doe.com',
       password: 'Password.42'
     });
 
     expect(async () => {
       await authenticateUserUseCase.execute({
-        email: 'incorrect@mail.com',
+        email: 'incorrect@doe.com',
         password: 'Password.42'
       })
     }).rejects

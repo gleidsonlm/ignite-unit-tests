@@ -6,8 +6,8 @@
   "scripts": {
     "dev": "ts-node-dev --transpile-only --ignore-watch node_modules --respawn ./src/server.ts",
     "typeorm": "ts-node-dev ./node_modules/typeorm/cli",
-    "test": "NODE_ENV=test jest",
-    "test:watch": "jest --watch"
+    "test": "NODE_ENV=test jest --runInBand",
+    "test:watch": "NODE_ENV=test jest --runInBand --watch"
   },
   "dependencies": {
     "@types/jest": "^29.2.5",
