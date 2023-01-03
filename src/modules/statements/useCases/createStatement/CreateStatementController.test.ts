@@ -1,5 +1,5 @@
 import request from 'supertest'
-import { Connection, createConnection, getRepository } from 'typeorm';
+import { Connection, createConnection } from 'typeorm';
 import { clearDatabaseTable } from '../../../../shared/helpers/cleardatabasetable';
 import { app } from '../../../../app';
 import { User } from '../../../users/entities/User';
@@ -151,19 +151,18 @@ describe('User Statement', () => {
             updated_at: new Date()
         }    
         const { secret, expiresIn } = authConfig.jwt;
-        const token = sign({ user }, secret, {
+        const invalidToken = sign({ user }, secret, {
             subject: user.id,
             expiresIn,
         });
         
         const withdraw = await request(app)
-        .post("/api/v1/statements/deposit")
-        .set("Authorization", `Bearer ${token}`)
-        .send({
-            amount: 100.00,
-            description: "Income"
-        }).expect(404)
-        expect(withdraw.body.message).toMatch('User not found')
-
+            .post("/api/v1/statements/deposit")
+            .set("Authorization", `Bearer ${invalidToken}`)
+            .send({
+                amount: 100.00,
+                description: "Income"
+            }).expect(404)
+        expect(withdraw.body.message).toEqual('User not found')
     })
 })
