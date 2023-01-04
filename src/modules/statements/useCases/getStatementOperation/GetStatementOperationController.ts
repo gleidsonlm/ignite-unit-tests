@@ -12,7 +12,7 @@ export class GetStatementOperationController {
 
     const statementOperation = await getStatementOperation.execute({
       user_id,
-      statement_id
+      statement_id,
     });
 
     return response.json(statementOperation);

@@ -8,10 +8,10 @@ import { StatementsRepository } from '../../modules/statements/repositories/Stat
 
 container.registerSingleton<IUsersRepository>(
   'UsersRepository',
-  UsersRepository
+  UsersRepository,
 );
 
 container.registerSingleton<IStatementsRepository>(
   'StatementsRepository',
-  StatementsRepository
+  StatementsRepository,
 );

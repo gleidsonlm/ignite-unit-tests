@@ -7,7 +7,7 @@ import { app } from '../../../../app';
 import { User } from '../../entities/User';
 import { clearDatabaseTable } from '../../../../shared/helpers/cleardatabasetable';
 
-let connection: Connection
+let connection: Connection;
 beforeAll(async () => {
   connection = await createConnection();
   await connection.runMigrations();
@@ -15,7 +15,7 @@ beforeAll(async () => {
 
 afterEach(async () => {
   await clearDatabaseTable();
-})
+});
 
 
 afterAll(async () => {
@@ -24,75 +24,75 @@ afterAll(async () => {
 
 describe('User Session', () => {
   it('should be able to authenticate an user', async () => {
-    const usersRepository = getRepository(User)
+    const usersRepository = getRepository(User);
     const user = usersRepository.create({
       name: 'John Doe',
       email: 'john@doe.com',
-      password: await hash('Password.42', 8)      
-    })
-    await usersRepository.save(user)
+      password: await hash('Password.42', 8),      
+    });
+    await usersRepository.save(user);
 
     const tokenResponse = await request(app)
-    .post("/api/v1/sessions")
-    .send({
-      email: 'john@doe.com',
-      password: 'Password.42'
-    })
+      .post('/api/v1/sessions')
+      .send({
+        email: 'john@doe.com',
+        password: 'Password.42',
+      });
     
     expect(tokenResponse.body).toEqual(
       expect.objectContaining({
-          user: {
-            id: expect.any(String),
-            name: 'John Doe',
-            email: 'john@doe.com'
-          },
-          token: expect.any(String),
-        }
-      ))     
+        user: {
+          id: expect.any(String),
+          name: 'John Doe',
+          email: 'john@doe.com',
+        },
+        token: expect.any(String),
+      },
+      ));     
 
     expect(() => {
       jwt.verify(
         tokenResponse.body.token,
-      `${process.env.JWT_SECRET}`
-      )
-    })
-  })
+        `${process.env.JWT_SECRET}`,
+      );
+    });
+  });
 
   it('should not be able to authenticate with wrong password',
     async () => {
-      const usersRepository = getRepository(User)
+      const usersRepository = getRepository(User);
       const user = usersRepository.create({
         name: 'John Doe',
         email: 'john1@doe.com',
-        password: await hash('Password.42', 8)      
-      })
-      await usersRepository.save(user)
+        password: await hash('Password.42', 8),      
+      });
+      await usersRepository.save(user);
       
       const tokenResponse = await request(app)
-      .post("/api/v1/sessions")
-      .send({
-        email: 'john1@doe.com',
-        password: 'Password42'
-      })
+        .post('/api/v1/sessions')
+        .send({
+          email: 'john1@doe.com',
+          password: 'Password42',
+        });
 
-      expect(tokenResponse.status).toEqual(401)
+      expect(tokenResponse.status).toEqual(401);
       expect(tokenResponse.body.message)
-      .toEqual('Incorrect email or password')
-    }
-  )
+        .toEqual('Incorrect email or password');
+    },
+  );
 
   it('should not be able to authenticate with unregistered email',
     async () => {
       const tokenResponse = await request(app)
-      .post("/api/v1/sessions")
-      .send({
-        email: 'john2@doe.com',
-        password: 'Password42'
-      })
+        .post('/api/v1/sessions')
+        .send({
+          email: 'john2@doe.com',
+          password: 'Password42',
+        });
 
-      expect(tokenResponse.status).toEqual(401)
+      expect(tokenResponse.status).toEqual(401);
       expect(tokenResponse.body.message)
-      .toEqual('Incorrect email or password')      
-    }    
-  )
-})
+        .toEqual('Incorrect email or password');      
+    },    
+  );
+});

@@ -1,4 +1,4 @@
-import { MigrationInterface, QueryRunner, Table } from "typeorm";
+import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
 export class accountsTable1616682561481 implements MigrationInterface {
 
@@ -28,18 +28,18 @@ export class accountsTable1616682561481 implements MigrationInterface {
         {
           name: 'type',
           type: 'enum',
-          enum: ['deposit', 'withdraw']
+          enum: ['deposit', 'withdraw'],
         },
         {
           name: 'created_at',
           type: 'timestamp',
-          default: 'now()'
+          default: 'now()',
         },
         {
           name: 'updated_at',
           type: 'timestamp',
-          default: 'now()'
-        }
+          default: 'now()',
+        },
       ],
       foreignKeys: [
         {
@@ -48,10 +48,10 @@ export class accountsTable1616682561481 implements MigrationInterface {
           referencedTableName: 'users',
           referencedColumnNames: ['id'],
           onUpdate: 'CASCADE',
-          onDelete: 'CASCADE'
-        }
-      ]
-    }))
+          onDelete: 'CASCADE',
+        },
+      ],
+    }));
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
