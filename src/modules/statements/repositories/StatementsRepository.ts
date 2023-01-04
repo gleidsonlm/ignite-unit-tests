@@ -3,7 +3,7 @@ import { getRepository, Repository } from "typeorm";
 import { Statement } from "../entities/Statement";
 import { ICreateStatementDTO } from "../useCases/createStatement/ICreateStatementDTO";
 import { IGetBalanceDTO } from "../useCases/getBalance/IGetBalanceDTO";
-import { IGetStatementOperationDTO } from "../useCases/getStatementOperation/IGetStatementOperationDTO";
+import { IGetStatementOperationDTO } from "../../users/IGetStatementOperationDTO";
 import { IStatementsRepository } from "./IStatementsRepository";
 
 export class StatementsRepository implements IStatementsRepository {
@@ -51,10 +51,10 @@ export class StatementsRepository implements IStatementsRepository {
     });
 
     const balance: number = statement.reduce((accumulator, operation) => {
-      if (operation.type === "deposit") {
-        return Number(accumulator) + Number(operation.amount);
+      if (operation.type === "withdraw") {
+        return Number(accumulator) - Number(operation.amount);
       }
-      return accumulator - operation.amount;
+      return Number(accumulator) + Number(operation.amount);
     }, 0);
 
     if (with_statement) {

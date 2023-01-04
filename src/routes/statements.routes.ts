@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { CreateTransferController } from "../modules/statements/useCases/createStatement/CreateTransferController";
+import { CreateTransferController } from "../modules/statements/useCases/createTransfer/CreateTransferController";
 
 import { CreateStatementController } from "../modules/statements/useCases/createStatement/CreateStatementController";
 import { GetBalanceController } from "../modules/statements/useCases/getBalance/GetBalanceController";
