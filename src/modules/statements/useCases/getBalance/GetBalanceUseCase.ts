@@ -1,9 +1,9 @@
-import { inject, injectable } from 'tsyringe';
+import { inject, injectable } from "tsyringe";
 
-import { IUsersRepository } from '../../../users/repositories/IUsersRepository';
-import { Statement } from '../../entities/Statement';
-import { IStatementsRepository } from '../../repositories/IStatementsRepository';
-import { GetBalanceError } from './GetBalanceError';
+import { IUsersRepository } from "../../../users/repositories/IUsersRepository";
+import { Statement } from "../../entities/Statement";
+import { IStatementsRepository } from "../../repositories/IStatementsRepository";
+import { GetBalanceError } from "./GetBalanceError";
 
 interface IRequest {
   user_id: string;
@@ -17,11 +17,11 @@ interface IResponse {
 @injectable()
 export class GetBalanceUseCase {
   constructor(
-    @inject('StatementsRepository')
+    @inject("StatementsRepository")
     private statementsRepository: IStatementsRepository,
 
-    @inject('UsersRepository')
-    private usersRepository: IUsersRepository,
+    @inject("UsersRepository")
+    private usersRepository: IUsersRepository
   ) {}
 
   async execute({ user_id }: IRequest): Promise<IResponse> {

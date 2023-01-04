@@ -4,33 +4,33 @@ import {
   Entity,
   OneToMany,
   PrimaryGeneratedColumn,
-} from 'typeorm';
-import { v4 as uuid } from 'uuid';
+} from "typeorm";
+import { v4 as uuid } from "uuid";
 
-import { Statement } from '../../statements/entities/Statement';
+import { Statement } from "../../statements/entities/Statement";
 
-@Entity('users')
+@Entity("users")
 export class User {
-  @PrimaryGeneratedColumn('uuid')
-    id?: string;
+  @PrimaryGeneratedColumn("uuid")
+  id?: string;
 
   @Column()
-    name: string;
+  name: string;
 
   @Column()
-    email: string;
+  email: string;
 
   @Column()
-    password: string;
+  password: string;
 
-  @OneToMany(() => Statement, statement => statement.user)
-    statement: Statement[];
+  @OneToMany(() => Statement, (statement) => statement.user)
+  statement: Statement[];
 
   @CreateDateColumn()
-    created_at: Date;
+  created_at: Date;
 
   @CreateDateColumn()
-    updated_at: Date;
+  updated_at: Date;
 
   constructor() {
     if (!this.id) {
