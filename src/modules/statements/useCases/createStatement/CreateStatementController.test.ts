@@ -38,7 +38,7 @@ describe("User Statement", () => {
       .post("/api/v1/statements/deposit")
       .set("Authorization", `Bearer ${tokenResponse.body.token}`)
       .send({
-        amount: 100.0,
+        amount: 100,
         description: "Income",
       })
       .expect(201);
@@ -66,7 +66,7 @@ describe("User Statement", () => {
       password: "Password.42",
     });
 
-    const deposit = await request(app)
+    await request(app)
       .post("/api/v1/statements/deposit")
       .set("Authorization", `Bearer ${tokenResponse.body.token}`)
       .send({
@@ -106,7 +106,7 @@ describe("User Statement", () => {
       password: "Password.42",
     });
 
-    const deposit = await request(app)
+    await request(app)
       .post("/api/v1/statements/deposit")
       .set("Authorization", `Bearer ${tokenResponse.body.token}`)
       .send({

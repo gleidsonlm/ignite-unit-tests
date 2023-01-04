@@ -8,11 +8,13 @@ import {
 } from "typeorm";
 import { v4 as uuid } from "uuid";
 
+// eslint-disable-next-line import/no-cycle
 import { User } from "../../users/entities/User";
 
 enum OperationType {
   DEPOSIT = "deposit",
   WITHDRAW = "withdraw",
+  TRANSFER = "transfer",
 }
 
 @Entity("statements")
@@ -22,6 +24,9 @@ export class Statement {
 
   @Column("uuid")
   user_id: string;
+
+  @Column("uuid")
+  sender_id?: string | null;
 
   @ManyToOne(() => User, (user) => user.statement)
   @JoinColumn({ name: "user_id" })

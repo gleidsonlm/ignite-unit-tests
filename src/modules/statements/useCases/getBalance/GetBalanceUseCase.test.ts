@@ -33,6 +33,7 @@ describe("User Balance", () => {
       description: "income",
       amount: 100,
       type: OperationType.DEPOSIT,
+      sender_id: null,
     };
     await createStatementUseCase.execute(depositDTO);
 

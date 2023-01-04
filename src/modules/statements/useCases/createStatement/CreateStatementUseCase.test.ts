@@ -31,6 +31,7 @@ describe("User Statement", () => {
       description: "income",
       amount: 9000,
       type: OperationType.DEPOSIT,
+      sender_id: null,
     };
     const deposit = await createStatementUseCase.execute(depositDTO);
 
@@ -60,6 +61,7 @@ describe("User Statement", () => {
       description: "income",
       amount: 9000,
       type: OperationType.DEPOSIT,
+      sender_id: null,
     };
     await createStatementUseCase.execute(depositDTO);
 
@@ -68,6 +70,7 @@ describe("User Statement", () => {
       description: "income",
       amount: 9000,
       type: OperationType.WITHDRAW,
+      sender_id: null,
     };
 
     const withdraw = await createStatementUseCase.execute(withdrawDTO);
@@ -98,6 +101,7 @@ describe("User Statement", () => {
       description: "income",
       amount: 8000,
       type: OperationType.DEPOSIT,
+      sender_id: null,
     };
     await createStatementUseCase.execute(depositDTO);
 
@@ -106,6 +110,7 @@ describe("User Statement", () => {
       description: "income",
       amount: 9000,
       type: OperationType.WITHDRAW,
+      sender_id: null,
     };
 
     try {
@@ -132,6 +137,7 @@ describe("User Statement", () => {
       description: "income",
       amount: 9000,
       type: OperationType.WITHDRAW,
+      sender_id: null,
     };
 
     try {

@@ -3,7 +3,7 @@ import { describe, it } from "@jest/globals";
 import { hash } from "bcryptjs";
 import { Connection, createConnection, getRepository } from "typeorm";
 
-import { decode } from "jsonwebtoken";
+import { AppError } from "../../../../shared/errors/AppError";
 import { app } from "../../../../app";
 import { User } from "../../entities/User";
 import { clearDatabaseTable } from "../../../../shared/helpers/cleardatabasetable";
@@ -54,10 +54,10 @@ describe("User Profile", () => {
   });
 
   it("should not be able to return profile with invalid auth token", async () => {
-    expect(async () => {
-      await request(app)
-        .get("/api/v1/profile")
-        .set("Authorization", "Bearer invalid");
-    }).rejects;
+    const response = await request(app)
+      .get("/api/v1/profile")
+      .set("Authorization", "Bearer invalid");
+    expect(response.body.message).toEqual("JWT invalid token!");
+    expect(response.status).toBe(401);
   });
 });
