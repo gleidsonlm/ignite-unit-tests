@@ -26,6 +26,7 @@ describe("Get Statement Operation", () => {
     enum OperationType {
       DEPOSIT = "deposit",
       WITHDRAW = "withdraw",
+      TRANSFER = "transfer",
     }
     const statementResponse = await createStatementUseCase.execute({
       user_id: `${userResponse.id}`,
@@ -94,6 +95,7 @@ describe("Get Statement Operation", () => {
     enum OperationType {
       DEPOSIT = "deposit",
       WITHDRAW = "withdraw",
+      TRANSFER = "transfer",
     }
     const statementResponse = await createStatementUseCase.execute({
       user_id: `${userResponse.id}`,

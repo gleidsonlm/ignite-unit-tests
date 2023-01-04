@@ -50,11 +50,11 @@ export class StatementsRepository implements IStatementsRepository {
       where: { user_id },
     });
 
-    const balance = statement.reduce((acc, operation) => {
-      if (operation.type === "deposit" || operation.type === "transfer") {
-        return acc + operation.amount;
+    const balance: number = statement.reduce((accumulator, operation) => {
+      if (operation.type === "deposit") {
+        return Number(accumulator) + Number(operation.amount);
       }
-      return acc - operation.amount;
+      return accumulator - operation.amount;
     }, 0);
 
     if (with_statement) {

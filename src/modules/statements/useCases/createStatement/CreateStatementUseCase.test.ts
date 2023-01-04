@@ -25,6 +25,7 @@ describe("User Statement", () => {
     enum OperationType {
       DEPOSIT = "deposit",
       WITHDRAW = "withdraw",
+      TRANSFER = "transfer",
     }
     const depositDTO: ICreateStatementDTO = {
       user_id: `${userResponse.id}`,
@@ -55,6 +56,7 @@ describe("User Statement", () => {
     enum OperationType {
       DEPOSIT = "deposit",
       WITHDRAW = "withdraw",
+      TRANSFER = "transfer",
     }
     const depositDTO: ICreateStatementDTO = {
       user_id: `${userResponse.id}`,
@@ -95,6 +97,7 @@ describe("User Statement", () => {
     enum OperationType {
       DEPOSIT = "deposit",
       WITHDRAW = "withdraw",
+      TRANSFER = "transfer",
     }
     const depositDTO: ICreateStatementDTO = {
       user_id: `${userResponse.id}`,
@@ -131,6 +134,7 @@ describe("User Statement", () => {
     enum OperationType {
       DEPOSIT = "deposit",
       WITHDRAW = "withdraw",
+      TRANSFER = "transfer",
     }
     const withdrawDTO: ICreateStatementDTO = {
       user_id: `${randomUUID}`,

@@ -27,6 +27,7 @@ describe("User Balance", () => {
     enum OperationType {
       DEPOSIT = "deposit",
       WITHDRAW = "withdraw",
+      TRANSFER = "transfer",
     }
     const depositDTO: ICreateStatementDTO = {
       user_id: `${userResponse.id}`,

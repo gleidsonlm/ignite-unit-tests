@@ -9,18 +9,19 @@ enum OperationType {
   TRANSFER = "transfer",
 }
 
-export class CreateStatementController {
+export class CreateTransferController {
   async execute(request: Request, response: Response) {
-    const { id: user_id } = request.user;
+    const { id: sender_id } = request.user;
     const { amount, description } = request.body;
-    const { sender_id } = request.params;
+    const { user_id } = request.params;
 
     const splittedPath = request.originalUrl.split("/");
-    const type = splittedPath[splittedPath.length - 1] as OperationType;
+    const type = splittedPath[splittedPath.length - 2] as OperationType;
 
     const createStatement = container.resolve(CreateStatementUseCase);
 
-    const statement = await createStatement.execute({
+    // transfer debits the sender ...
+    await createStatement.execute({
       user_id,
       sender_id,
       type,
@@ -28,6 +29,15 @@ export class CreateStatementController {
       description,
     });
 
-    return response.status(201).json(statement);
+    // ... and credits the receiver
+    const transfer = await createStatement.execute({
+      user_id: sender_id,
+      sender_id: user_id,
+      type: OperationType.DEPOSIT,
+      amount,
+      description,
+    });
+
+    return response.status(201).json(transfer);
   }
 }
