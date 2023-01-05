@@ -9,8 +9,17 @@ export class BalanceMap {
     balance: number;
   }) {
     const parsedStatement = statement.map(
-      ({ id, amount, description, type, created_at, updated_at }) => ({
+      ({
         id,
+        sender_id,
+        amount,
+        description,
+        type,
+        created_at,
+        updated_at,
+      }) => ({
+        id,
+        sender_id,
         amount: Number(amount),
         description,
         type,

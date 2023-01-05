@@ -42,6 +42,7 @@ describe("User Balance", () => {
       statementsRepository,
       usersRepository
     );
+
     const balance = await getBalanceUseCase.execute({
       user_id: `${userResponse.id}`,
     });

@@ -5,6 +5,12 @@ import { IStatementsRepository } from "../../repositories/IStatementsRepository"
 import { CreateTransferError } from "./CreateTransferError";
 import { ICreateTransferDTO } from "./CreateTransferDTO";
 
+enum OperationType {
+  DEPOSIT = "deposit",
+  WITHDRAW = "withdraw",
+  TRANSFER = "transfer",
+}
+
 @injectable()
 export class CreateTransferUseCase {
   constructor(
@@ -29,7 +35,7 @@ export class CreateTransferUseCase {
     }
 
     const { balance } = await this.statementsRepository.getUserBalance({
-      user_id,
+      user_id: String(sender_id),
     });
 
     if (balance < amount) {
@@ -37,11 +43,19 @@ export class CreateTransferUseCase {
     }
 
     const statementOperation = await this.statementsRepository.create({
-      type,
+      user_id,
+      sender_id,
       amount,
       description,
-      sender_id,
-      user_id,
+      type,
+    });
+
+    await this.statementsRepository.create({
+      user_id: String(sender_id),
+      sender_id: user_id,
+      amount,
+      description,
+      type: OperationType.WITHDRAW,
     });
 
     return statementOperation;

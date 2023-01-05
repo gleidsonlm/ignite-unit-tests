@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import { container } from "tsyringe";
-
-import { CreateTransferUseCase } from "../createStatement/CreateTransferUseCase";
+import { CreateTransferUseCase } from "./CreateTransferUseCase";
 
 enum OperationType {
   DEPOSIT = "deposit",
@@ -26,29 +25,18 @@ export class CreateTransferController {
     const { amount, description } = request.body;
     const { user_id } = request.params;
 
-    const splittedPath = request.originalUrl.split("/");
-    const type = splittedPath[splittedPath.length - 2] as OperationType;
+    const type = OperationType.TRANSFER;
 
-    const createStatement = container.resolve(CreateTransferUseCase);
+    const createTransferUseCase = container.resolve(CreateTransferUseCase);
 
     // credits the sender
-    const transfer: IResponse = await createStatement.execute({
+    const transfer: IResponse = await createTransferUseCase.execute({
       user_id,
       sender_id,
       type,
       amount,
       description,
     });
-
-    // debits the recipient
-    await createStatement.execute({
-      user_id: sender_id,
-      sender_id: user_id,
-      type: OperationType.WITHDRAW,
-      amount,
-      description,
-    });
-    delete transfer.user_id;
 
     return response.status(201).json(transfer);
   }

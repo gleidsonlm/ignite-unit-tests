@@ -1,9 +1,10 @@
-import { getRepository, Repository } from "typeorm";
+import { stat } from "fs";
+import { getRepository, Repository, SelectQueryBuilder } from "typeorm";
 
 import { Statement } from "../entities/Statement";
 import { ICreateStatementDTO } from "../useCases/createStatement/ICreateStatementDTO";
 import { IGetBalanceDTO } from "../useCases/getBalance/IGetBalanceDTO";
-import { IGetStatementOperationDTO } from "../../users/IGetStatementOperationDTO";
+import { IGetStatementOperationDTO } from "../useCases/getStatementOperation/IGetStatementOperationDTO";
 import { IStatementsRepository } from "./IStatementsRepository";
 
 export class StatementsRepository implements IStatementsRepository {
